@@ -5,7 +5,6 @@
     <classes>
       <class name="automationtasks.testCases.Testcase_001">
         <methods>
-          <include name="browsers"/>
           <include name="mobiles"/>
         </methods>
       </class> <!-- automationtasks.testCases.Testcase_001 -->
