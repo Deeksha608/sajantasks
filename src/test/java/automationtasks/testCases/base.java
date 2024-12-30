@@ -22,17 +22,19 @@ public class base
 		tc1.navtoAmazonPage();
 		tc1.amzSearchBox("mobiles");
 	}
-	@Test
+	//@Test
 	public void task2() 
 	{
 		TestCase_002 tc2=new TestCase_002(driver);
 		tc2.navtoamazonpage();
 		tc2.iphonestorage("iphones");
 	}
-	
+	//@Test
 	public void task3() 
 	{
-		
+		TestCase_003 tc3=new TestCase_003(driver);
+		tc3.googlenews();
+		tc3.googlenewsworld();		
 	}
 	
 	//@AfterTest
