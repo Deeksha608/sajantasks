@@ -5,7 +5,7 @@
     <classes>
       <class name="automationtasks.testCases.base">
         <methods>
-          <include name="task1"/>
+          <include name="task5"/>
         </methods>
       </class> <!-- automationtasks.testCases.base -->
     </classes>

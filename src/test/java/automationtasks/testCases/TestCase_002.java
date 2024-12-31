@@ -1,48 +1,53 @@
 package automationtasks.testCases;
 
+import java.time.Duration;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
+import junit.framework.Assert;
 
-public class TestCase_002 
-{
+public class TestCase_002 {
 	WebDriver driver;
 	TestCase_002(WebDriver driver)
 	{
-		this.driver=driver;		
+		this.driver = driver;
 	}
-	
-	public boolean navtoamazonpage() 
-	{
-		String url="https://www.amazon.in/";
-	        if (!driver.getCurrentUrl().equals(url)) {
-	            driver.get(url);
-	        }
-	        return false;
-	 }	
-	
 	@Test
-	public void iphonestorage(String product)
+	public void iphonesstorage() throws Exception
 	{
-		WebElement amzsearchbox=driver.findElement(By.id("twotabsearchtextbox"));
-		amzsearchbox.click();
-		amzsearchbox.sendKeys(product);
-		driver.findElement(By.id("nav-search-submit-button")).click();
-		List<WebElement> storage=driver.findElements(By.xpath("//*[@id=\"d23ea682-c17c-4269-be81-1b8b60b98dc4\"]/div/div/div/div/span/div/div/div/div[2]/div/div/div[1]/a/h2"));
-		int count=0;
-		for(int i=0;i<storage.size();i++)
+		driver.get("https://www.amazon.in/");
+		WebElement searchbox=driver.findElement(By.id("twotabsearchtextbox"));
+		Assert.assertTrue("Failed: Amazon Search box is not found", searchbox.isDisplayed());
+		searchbox.click();
+		searchbox.sendKeys("iphone 128 GB");
+		WebElement searchbutton=driver.findElement(By.id("nav-search-submit-button"));
+		searchbutton.click();
+		
+		WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[@class='a-size-medium a-spacing-none a-color-base a-text-normal']")));
+		
+		try
 		{
-			if(storage.get(i).getText().contains("128 GB"))
+			List<WebElement> iphoneslist=driver.findElements(By.xpath("//h2[@class='a-size-medium a-spacing-none a-color-base a-text-normal'//span]"));
+			int count=0;
+			
+			for(int i=0; i<iphoneslist.size(); i++)
 			{
-				count ++;
-				System.out.println("Product Title is:" +storage.get(i).getText());
+				String Product_title=iphoneslist.get(i).getText();
+				if(Product_title.contains("128"))
+				{
+					count ++;
+					System.out.println(Product_title);
+				}
 			}
-		}
-		System.out.println(count);
+			System.out.println(count);
+		} catch (Exception e)
+		{
+			System.out.println("Exception");
+		}		
 	}
-	
-
 }

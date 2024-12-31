@@ -1,10 +1,13 @@
 package automationtasks.testCases;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 public class TestCase_003 
@@ -16,46 +19,79 @@ public class TestCase_003
 	}
 	
 	@Test
-	public void googlenews()
+	public void googlenewsIndia()
 	{
 		driver.get("https://www.news.google.com/");
-		WebElement tab_India=driver.findElement(By.xpath("//div[@class='EctEBd']//a[text()='India']"));
-		tab_India.click();
-		List<WebElement> SourceChannels = driver.findElements(By.xpath("//div[@class='vr1PYe']//div[@class='vr1PYe']//div[@class='vr1PYe']"));
-		List<WebElement> Time = driver.findElements(By.xpath("//div[@class='hvbAAd']//time"));
-		List<WebElement> Headlines = driver.findElements(By.xpath("//a[@class='gPFEn']"));
-		for(int i=0; i<5 && i<SourceChannels.size() && i<Time.size() && i<Headlines.size();i++)
+		try
 		{
-			String sourcechannelstext=SourceChannels.get(i).getText();
-			String Timetext=Time.get(i).getText();
-			String headlinestext=Headlines.get(i).getText();
-			if(!sourcechannelstext.isEmpty() && !Timetext.isEmpty() && !headlinestext.isEmpty())
+			WebElement tab_India = driver.findElement(By.xpath("//div[@class='EctEBd']//a[text()='India']"));
+			tab_India.click();
+			
+			WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(30));
+			wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//h1[text()='India']")));
+			
+			List<WebElement> SourceChannels = driver.findElements(By.xpath("//div[@class='f9uzM']//div[@class='MCAGUe']//div[@class='a7P8l']//div[@class='vr1PYe']"));
+			List<WebElement> Headline = driver.findElements(By.xpath("//article[@class='UwIKyb']//a[@class='gPFEn']"));
+			List<WebElement> Time = driver.findElements(By.xpath("//div[@class='UOVeFe Jjkwtf']//time"));
+			System.out.println("India");
+			
+			for(int i=0; i<15 && i<Headline.size() && i<SourceChannels.size() && i<Time.size(); i++)
 			{
-				System.out.println("Source Channels:" +sourcechannelstext);
-				System.out.println("Headlines:" +headlinestext);
-				System.out.println("Time:" +Timetext);
-			}
-		}		
+				String headlines_txt=Headline.get(i).getTagName();
+				String Time_txt=Time.get(i).getText();
+				String SourceChannels_txt=SourceChannels.get(i).getText();
+				if(!SourceChannels_txt.isEmpty() && !Time_txt.isEmpty() && !headlines_txt.isEmpty())
+				{
+					System.out.println("Headline:" +headlines_txt);
+					System.out.println("Source Channel:" +SourceChannels_txt);
+					System.out.println("Time:" +Time_txt);
+					System.out.println("==========");
+				}				
+			}			
+		} catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
-	public void googlenewsworld() 
+	public void googlenewsWorld()
 	{
-		driver.findElement(By.xpath("//a[@class='brSCsc']")).click();
-		List<WebElement> Headline=driver.findElements(By.xpath("//a[@class='gPFEn ']"));
-		List<WebElement> Time=driver.findElements(By.xpath("//div[@class='UOVeFe ']//time"));
-		List<WebElement> sourcechannel=driver.findElements(By.xpath("//div[@class='vr1PYe']//div[@class='a7P8l']//div[@class='a7P8l'"));
-		for(int i=0;i<15 && i<sourcechannel.size() && i<Headline.size() && i<Time.size();i++)
-		{
-			String sourcechannelText=sourcechannel.get(i).getText();
-			String HealinesText=Headline.get(i).getText();
-			String TimeText=Time.get(i).getText();
-			if (!sourcechannelText.isEmpty() && !HealinesText.isEmpty() && !TimeText.isEmpty()) {
-                System.out.println("Channel/Newspaper/Article: " + sourcechannelText);
-                System.out.println("Headline: " + HealinesText);
-                System.out.println("Time Posted: " + TimeText);
-               
-            }
-		}
-	}
+		try {
+	            WebElement worldClick = driver.findElement(By.xpath("//c-wiz[@jsrenderer='xhgKH']//div[@class='EctEBd']//a[text()='World']"));
+	            worldClick.click();
+
+	            driver.navigate().refresh();
+
+	            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+	            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='IbUd0d']//h1")));
+
+	            System.out.println("News from World");
+
+	            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//article[@class='UwIKyb']//div[@class='MCAGUe']//div[@class='a7P8l']//div[@class='vr1PYe']")));
+
+	            List<WebElement> sourceChannels = driver.findElements(By.xpath("//article[@class='UwIKyb']//div[@class='MCAGUe']//div[@class='a7P8l']//div[@class='vr1PYe']"));
+	            List<WebElement> headlines = driver.findElements(By.xpath("//article[@class='UwIKyb']//a[@class='gPFEn']"));
+	            List<WebElement> time = driver.findElements(By.xpath("//article[@class='UwIKyb']//div[@class='UOVeFe Jjkwtf']//time"));
+
+	            for (int i = 0; i < 15 && i < sourceChannels.size() && i < headlines.size() && i < time.size(); i++) 
+	            {
+	                String sourceChannelText = sourceChannels.get(i).getText();
+	                String headlineText = headlines.get(i).getText();
+	                String timeText = time.get(i).getText();
+
+	                if (!sourceChannelText.isEmpty() && !headlineText.isEmpty() && !timeText.isEmpty()) 
+	                {
+	                    System.out.println("Channel/Newspaper/Article: " + sourceChannelText);
+	                    System.out.println("Headline: " + headlineText);
+	                    System.out.println("Time Posted: " + timeText);
+	                    System.out.println("==============");
+	                }
+	            }
+	        } catch (Exception e) {
+	            // TODO: handle exception
+	            e.printStackTrace();
+	        }
+	    }
 }
